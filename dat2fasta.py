@@ -16,6 +16,9 @@ parser.add_option("-i", "--input", dest="input",
 	help="Input uniprot dat file name.", metavar="FILE")
 parser.add_option("-o", "--output", dest="output",
 	help="Output fasta file name.", metavar="FILE")
+parser.add_option("-t", "--dbtype", dest="dbtype",
+	help="Whether the database is SwissProt (sp) or Trembl (tr).",
+	default = "sp", type = "string")
 (options, args) = parser.parse_args()
 
 # Bring in the dat file
@@ -35,7 +38,7 @@ with open(options.input, "r") as a_file:
 			stripped_line = re.sub(r"AC +", r"", stripped_line)
 			stripped_line = re.sub(r";", r"", stripped_line)
 			stripped_AC = re.sub(r" .+", r"", stripped_line)
-			fastafile.write(">sp|" + stripped_AC + "|" + stripped_ID + "\n")
+			fastafile.write(">" + options.dbtype + "|" + stripped_AC + "|" + stripped_ID + "\n")
 			stripped_ID = None
 			stripped_AC = None
 			repeat_accession = 1
